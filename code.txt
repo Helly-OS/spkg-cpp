@@ -1,0 +1,5 @@
+inline int get_spkg_mem_count(void) { return spkg_mem_count; }
+inline string get_spkg_cpu_count(void) { return spkg_os_type;   }
+inline string get_spkg_system_arch(void) { return spkg_system_arch; }
+inline string get_spkg_main_pkg_arch(void) { return spkg_main_pkg_arch; }
+inline vector<string> get_supported_spkg_archs(void) { return spkg_supported_pkg_archs; }
