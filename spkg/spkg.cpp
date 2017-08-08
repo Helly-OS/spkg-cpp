@@ -1,16 +1,16 @@
-#include <cstdlib>
-#include <string>
-#include <iostream>
-
 #include "../libspkg/libspkg.h"
 #include "../libspkg/baseConfig.h"
 #include "spkgGetOpts.h"
 
 using namespace std;
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-      baseConfig Config;
+      setlocale(LC_ALL,"");
+      bindtextdomain("spkg", "locale");
+      textdomain("spkg");
+
+      spkgGetOpts Config;
 
       cout << "CPU Count           : " << Config.get_spkg_cpu_count() << "\n";
       cout << "Memory Count        : " << Config.get_spkg_mem_count(SPKG_GIGABYTES) << "\n";
@@ -20,5 +20,12 @@ int main(int argc, char* argv[])
       cout << "Supported pkg archs : " << "";
       Config.print_spkg_sup_pkg_archs();
 
-      return SPKG_SUCCESS;
+      if (Config.get_spkg_main_command() == SPKG_NONE)
+      {
+            cout << _("Default command is not defined\n");
+      } else {
+            cout << Config.get_spkg_main_command() endl;
+      }
+
+      return EXIT_SUCCESS;
 }

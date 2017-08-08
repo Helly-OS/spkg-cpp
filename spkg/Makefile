@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 
 CC = g++
-SPKG_SRC = spkgGetOpts.cpp spkg.cpp
-SPKG_OBJ = spkgGetOpts.o spkg.o
+SPKG_SRC = spkg.cpp spkgGetOpts.cpp
+SPKG_OBJ = spkg.o spkgGetOpts.o
 SPKG_CFLAGS = -I. -I../libspkg -L../libspkg -lspkg
 SPKG_BINARY = spkg
 

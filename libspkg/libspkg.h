@@ -1,9 +1,23 @@
 #include <cstdlib>
+#include <string>
+#include <iostream>
+#include <libintl.h>
+#include <locale.h>
 
 #ifndef LIBSPKG_H
+#define LIBSPKG_H
 
-#define SPKG_YES                    1
-#define SPKG_NO                     0
+#ifndef _
+#define _(STRING) gettext(STRING)
+#endif
+
+
+typedef enum
+{
+      SPKG_OFF = 0,
+      SPKG_ON
+} spkg_flag_t;
+
 #define SPKG_NULL                   NULL
 #define SPKG_EMPTY                  "Empty"
 #define SPKG_SUCCESS                EXIT_SUCCESS
@@ -21,10 +35,7 @@ typedef enum
 {
       x86_64,
       i686,
-      ARM,
-      ALPHA,
-      POWER8,
-      AMIGA
+      ARM
 } spkg_arch;
 
 #endif

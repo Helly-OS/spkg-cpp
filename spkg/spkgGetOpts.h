@@ -1,15 +1,17 @@
 #include <getopt.h>
 #include <unistd.h>
 #include <string>
-#include "spkgConfig.h"
+#include "../libspkg/libspkg.h"
+#include "../libspkg/baseConfig.h"
+
+using namespace std;
 
 #ifndef SPKGGETOPTS_H
 #define SPKGGETOPTS_H
 
-using namespace std;
-
 typedef enum
 {
+      SPKG_NONE,
       SPKG_HELP,
       SPKG_INITDB,
       SPKG_PACK,
@@ -22,6 +24,7 @@ typedef enum
       SPKG_SHOW,
 } spkg_command_t;
 
+// Define main options
 #define SPKG_HELP_OPTION            "help"
 #define SPKG_HELP_SHORT_OPTION      'h'
 #define SPKG_INITDB_OPTION          "initdb"
@@ -42,23 +45,52 @@ typedef enum
 #define SPKG_QUERY_SHORT_OPTION     'q'
 #define SPKG_SHOW_OPTION            "show"
 #define SPKG_SHOW_SHORT_OPTION      's'
+
+// Define flags
+#define SPKG_USE_ROOT               "root"
+#define SPKG_USE_ROOT_SHORT         'R'
+#define SPKG_VERBOSE_FLAG           "verbose"
+#define SPKG_VERBOSE_FLAG_SHORT     'v'
+#define SPKG_FORCE_FLAG             "force"
+#define SPKG_FORCE_FLAG_SHORT       'f'
+#define SPKG_SILENT_FLAG            "silent"
+#define SPKG_SILENT_FLAG_SHORT      'S'
+
+// Define spkg reverse flags
+#define SPKG_RUNDEPS_FLAG           "norundeps"
+#define SPKG_RUNDEPS_FLAG_SHORT     1000
+#define SPKG_CONFLICTS_FLAG         "noclonflicts"
+#define SPKG_CONFLICTS_FLAG_SHORT   1001
+#define SPKG_SUGGESTS_FLAG          "nosuggests"
+#define SPKG_SUGGESTS_FLAG_SHORT    1002
+#define SPKG_SCRIPT_FLAG            "noscript"
+#define SPKG_SCRIPT_FLAG_SHORT      1003
+
+// And define short flags
 #define SPKG_SHORT_OPTIONS          "hIp:e:i:r:u:R:q:s:"
 
 #define SPKG_DEFAULT_ROOT       "/"
-#define SPKG_CHECK_RUN_DEPS       SPKG_YES
-#define SPKG_CHECK_RUN_CONFLICTS  SPKG_YES
-#define SPKG_CHECK_RUN_SUGGESTS   SPKG_YES
-#define SPKG_RUN_PKG_SCRIPT       SPKG_YES
-#define SPKG_RUN_FORCE_FLAG       SPKG_YES
-#define SPKG_RUN_VERBOSE_MODE     SPKG_NO
-#define SPKG_RUN_SILENT_MODE      SPKG_NO
+#define SPKG_CHECK_RUN_DEPS       SPKG_ON
+#define SPKG_CHECK_RUN_CONFLICTS  SPKG_ON
+#define SPKG_CHECK_RUN_SUGGESTS   SPKG_ON
+#define SPKG_RUN_PKG_SCRIPT       SPKG_ON
+#define SPKG_RUN_FORCE_FLAG       SPKG_OFF
+#define SPKG_RUN_VERBOSE_MODE     SPKG_OFF
+#define SPKG_RUN_SILENT_MODE      SPKG_OFF
 
-class spkgGetOpts {
+class spkgGetOpts : public baseConfig {
       public:
             spkgGetOpts();
+            spkg_command_t get_spkg_main_command(void);
+            void set_spkg_main_command(spkg_command_t command);
+            string get_spkg_default_root(void);
+            void set_spkg_default_root(string str);
+            spkg_flag_t get_spkg_check_run_deps(void);
+            void set_spkg_check_run_deps(spkg_flag_t);
+
 
       private:
-            spkg_command_t command;
+            spkg_command_t spkg_main_command;
             string spkg_default_root;
             int spkg_check_run_deps;
             int spkg_check_run_conflicts;
@@ -66,6 +98,11 @@ class spkgGetOpts {
             int spkg_run_force_flag;
             int spkg_run_verbose_mode;
             int spkg_run_silent_mode;
+
+      protected:
+            void spkg_process_arguments(int argc, char** argv);
+
+
 };
 
 #endif

@@ -1,1 +1,0 @@
-#include <spkgConfig.h>
