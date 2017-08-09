@@ -78,7 +78,8 @@ typedef enum
 #define SPKG_RUN_VERBOSE_MODE     SPKG_OFF
 #define SPKG_RUN_SILENT_MODE      SPKG_OFF
 
-class spkgGetOpts : public baseConfig {
+class spkgGetOpts : public baseConfig
+{
       public:
             spkgGetOpts();
             spkg_command_t get_spkg_main_command(void);
@@ -87,6 +88,7 @@ class spkgGetOpts : public baseConfig {
             void set_spkg_default_root(string str);
             spkg_flag_t get_spkg_check_run_deps(void);
             void set_spkg_check_run_deps(spkg_flag_t);
+            void spkg_process_arguments(int argc, char** argv);
 
 
       private:
@@ -98,11 +100,6 @@ class spkgGetOpts : public baseConfig {
             int spkg_run_force_flag;
             int spkg_run_verbose_mode;
             int spkg_run_silent_mode;
-
-      protected:
-            void spkg_process_arguments(int argc, char** argv);
-
-
 };
 
 #endif
