@@ -46,37 +46,38 @@ typedef enum
 #define SPKG_SHOW_OPTION            "show"
 #define SPKG_SHOW_SHORT_OPTION      's'
 
-// Define flags
-#define SPKG_USE_ROOT               "root"
-#define SPKG_USE_ROOT_SHORT         'R'
-#define SPKG_VERBOSE_FLAG           "verbose"
-#define SPKG_VERBOSE_FLAG_SHORT     'v'
-#define SPKG_FORCE_FLAG             "force"
-#define SPKG_FORCE_FLAG_SHORT       'f'
-#define SPKG_SILENT_FLAG            "silent"
-#define SPKG_SILENT_FLAG_SHORT      'S'
+// Define options
+#define SPKG_USE_ROOT_OPTION        "root"
+#define SPKG_USE_ROOT_SHORT_OPTION  'R'
+#define SPKG_VERBOSE_OPTION         "verbose"
+#define SPKG_VERBOSE_SHORT_OPTION   'v'
+#define SPKG_FORCE_OPTION           "force"
+#define SPKG_FORCE_SHORT_OPTION     'f'
+#define SPKG_SILENT_OPTION          "silent"
+#define SPKG_SILENT_SHORT_OPTION    'S'
 
-// Define spkg reverse flags
-#define SPKG_RUNDEPS_FLAG           "norundeps"
-#define SPKG_RUNDEPS_FLAG_SHORT     1000
-#define SPKG_CONFLICTS_FLAG         "noclonflicts"
-#define SPKG_CONFLICTS_FLAG_SHORT   1001
-#define SPKG_SUGGESTS_FLAG          "nosuggests"
-#define SPKG_SUGGESTS_FLAG_SHORT    1002
-#define SPKG_SCRIPT_FLAG            "noscript"
-#define SPKG_SCRIPT_FLAG_SHORT      1003
+// Define spkg reverse options
+#define SPKG_RUNDEPS_OPTION         "norundeps"
+#define SPKG_RUNDEPS_SHORT_OPTION   1000
+#define SPKG_CONFLICTS_OPTION       "noconflict"
+#define SPKG_CONFLICTS_SHORT_OPTION 1001
+#define SPKG_SUGGESTS_OPTION        "nosuggests"
+#define SPKG_SUGGESTS_SHORT_OPTION  1002
+#define SPKG_SCRIPT_OPTION          "noscript"
+#define SPKG_SCRIPT_SHORT_OPTION    1003
 
-// And define short flags
+// And define short options
 #define SPKG_SHORT_OPTIONS          "hIp:e:iruR:q:s:fvS"
 
+// Define default runtime flags
 #define SPKG_DEFAULT_ROOT         "/"
-#define SPKG_CHECK_RUN_DEPS       SPKG_ON
-#define SPKG_CHECK_RUN_CONFLICTS  SPKG_ON
-#define SPKG_CHECK_RUN_SUGGESTS   SPKG_ON
-#define SPKG_RUN_PKG_SCRIPT       SPKG_ON
-#define SPKG_RUN_FORCE_FLAG       SPKG_OFF
-#define SPKG_RUN_VERBOSE_FLAG     SPKG_OFF
-#define SPKG_RUN_SILENT_FLAG      SPKG_OFF
+#define SPKG_FORCE_FLAG          SPKG_OFF
+#define SPKG_VERBOSE_FLAG        SPKG_OFF
+#define SPKG_SILENT_FLAG         SPKG_OFF
+#define SPKG_DEPENDS_FLAG        SPKG_ON
+#define SPKG_CONFLICTS_FLAG      SPKG_ON
+#define SPKG_SUGGESTS_FLAG       SPKG_ON
+#define SPKG_SCRIPT_FLAG         SPKG_ON
 
 class spkgGetOpts : public baseConfig
 {
@@ -91,6 +92,10 @@ class spkgGetOpts : public baseConfig
             spkg_flag_t get_spkg_force_flag(void);
             spkg_flag_t get_spkg_verbose_flag(void);
             spkg_flag_t get_spkg_silent_flag(void);
+            spkg_flag_t get_spkg_depends_flag(void);
+            spkg_flag_t get_spkg_conflicts_flag(void);
+            spkg_flag_t get_spkg_suggests_flag(void);
+            spkg_flag_t get_spkg_script_flag(void);
             void spkg_process_arguments(int argc, char** argv);
 
       private:
@@ -99,19 +104,23 @@ class spkgGetOpts : public baseConfig
             */
             spkg_command_t spkg_main_command;
             string spkg_default_root;
-            spkg_flag_t spkg_check_run_deps;
-            spkg_flag_t spkg_check_run_conflicts;
-            spkg_flag_t spkg_check_run_suggests;
-            spkg_flag_t spkg_run_force_flag;
-            spkg_flag_t spkg_run_verbose_flag;
-            spkg_flag_t spkg_run_silent_flag;
+            spkg_flag_t spkg_force_flag;
+            spkg_flag_t spkg_verbose_flag;
+            spkg_flag_t spkg_silent_flag;
+            spkg_flag_t spkg_depends_flag;
+            spkg_flag_t spkg_suggests_flag;
+            spkg_flag_t spkg_conflicts_flag;
+            spkg_flag_t spkg_script_flag;
 
             void set_spkg_main_command(spkg_command_t command);
             void set_spkg_default_root(string str);
-            void set_spkg_check_run_deps(spkg_flag_t);
             void set_spkg_force_flag(spkg_flag_t);
             void set_spkg_verbose_flag(spkg_flag_t);
             void set_spkg_silent_flag(spkg_flag_t);
+            void set_spkg_depends_flag(spkg_flag_t);
+            void set_spkg_conflicts_flag(spkg_flag_t);
+            void set_spkg_suggests_flag(spkg_flag_t);
+            void set_spkg_script_flag(spkg_flag_t);
             void get_spkg_usage(void);
 };
 

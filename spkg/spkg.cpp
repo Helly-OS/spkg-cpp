@@ -36,6 +36,10 @@ int main(int argc, char** argv)
       cout << "Force mode          : " << Config.get_spkg_force_flag() << "\n";
       cout << "Verbose mode        : " << Config.get_spkg_verbose_flag() << "\n";
       cout << "Silent mode         : " << Config.get_spkg_silent_flag() << "\n";
-
+      cout << "Runtime depends     : " << Config.get_spkg_depends_flag() << "\n";
+      cout << "Package conflicts   : " << Config.get_spkg_conflicts_flag() << "\n";
+      cout << "Package suggestions : " << Config.get_spkg_suggests_flag() << "\n";
+      cout << "Package script      : " << Config.get_spkg_script_flag() << "\n";
+      
       return EXIT_SUCCESS;
 }
