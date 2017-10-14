@@ -1,8 +1,11 @@
 #include <cstdlib>
 #include <string>
 #include <iostream>
+#include <vector>
 #include <libintl.h>
 #include <locale.h>
+
+using namespace std;
 
 #ifndef LIBSPKG_H
 #define LIBSPKG_H
@@ -37,5 +40,7 @@ typedef enum
       i686,
       ARM
 } spkg_arch;
+
+void spkg_render_string_vector(vector<string>);
 
 #endif

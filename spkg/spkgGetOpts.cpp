@@ -129,12 +129,23 @@ spkg_flag_t spkgGetOpts::get_spkg_script_flag(void)
       return spkg_script_flag;
 }
 
+void spkgGetOpts::set_spkg_target_objects(vector<string> targets)
+{
+      spkg_target_objects = targets;
+}
+
+vector<string> spkgGetOpts::get_spkg_taget_objects(void)
+{
+      return spkg_target_objects;
+}
+
 void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
 {
 
       int c;
       int option_index = 0;
       const char* short_options = (char*)SPKG_SHORT_OPTIONS;
+      vector<string> targets;
       //opterr = 0;
 
       while(1)
@@ -235,4 +246,18 @@ void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
                         get_spkg_usage();
             }
       }
+
+      /*
+      * Add anything else to targets vector to be Process
+      */
+      if (optind < argc)
+      {
+        while (optind < argc)
+          targets.push_back(argv[optind++]);
+      }
+
+      if (targets.size() > 0)
+        set_spkg_target_objects(targets);
+
+      exit(SPKG_SUCCESS);
 }

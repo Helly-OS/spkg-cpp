@@ -31,7 +31,6 @@ public:
       // Printers
       void print_spkg_sup_pkg_archs(void);
 
-
 protected:
       int spkg_cpu_count;
       unsigned long spkg_mem_count;

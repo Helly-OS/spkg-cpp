@@ -57,8 +57,8 @@ typedef enum
 #define SPKG_SILENT_SHORT_OPTION    'S'
 
 // Define spkg reverse options
-#define SPKG_RUNDEPS_OPTION         "norundeps"
-#define SPKG_RUNDEPS_SHORT_OPTION   1000
+#define SPKG_DEPENDS_OPTION         "norundeps"
+#define SPKG_DEPENDS_SHORT_OPTION   1000
 #define SPKG_CONFLICTS_OPTION       "noconflict"
 #define SPKG_CONFLICTS_SHORT_OPTION 1001
 #define SPKG_SUGGESTS_OPTION        "nosuggests"
@@ -96,6 +96,7 @@ class spkgGetOpts : public baseConfig
             spkg_flag_t get_spkg_conflicts_flag(void);
             spkg_flag_t get_spkg_suggests_flag(void);
             spkg_flag_t get_spkg_script_flag(void);
+            vector<string> get_spkg_taget_objects(void);
             void spkg_process_arguments(int argc, char** argv);
 
       private:
@@ -111,6 +112,7 @@ class spkgGetOpts : public baseConfig
             spkg_flag_t spkg_suggests_flag;
             spkg_flag_t spkg_conflicts_flag;
             spkg_flag_t spkg_script_flag;
+            vector<string> spkg_target_objects;
 
             void set_spkg_main_command(spkg_command_t command);
             void set_spkg_default_root(string str);
@@ -121,6 +123,7 @@ class spkgGetOpts : public baseConfig
             void set_spkg_conflicts_flag(spkg_flag_t);
             void set_spkg_suggests_flag(spkg_flag_t);
             void set_spkg_script_flag(spkg_flag_t);
+            void set_spkg_target_objects(vector<string>);
             void get_spkg_usage(void);
 };
 
