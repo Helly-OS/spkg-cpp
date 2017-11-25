@@ -34,6 +34,11 @@ void spkgGetOpts::get_spkg_usage(void)
       " -h, --help    Show this help and exit without error\n"
       " -i, --install Install spkg format package\n"
       " -r, --remove  Remove spkg installed package\n"
+      " -u, --update  Update or replace package with another given\n"
+      " -q, --query   Query pckage information with a given fields\n"
+      " --create      Create spkg format package with a given direcotry\n"
+      " --explode     Extract spkg package format content\n"
+      " --filesystem  Initialize spkg file system and database\n"
       ""
       ) << endl;
 }
@@ -139,7 +144,7 @@ vector<string> spkgGetOpts::get_spkg_taget_objects(void)
       return spkg_target_objects;
 }
 
-void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
+spkg_getopt_staus_t spkgGetOpts::spkg_process_arguments(int argc, char** argv)
 {
 
       int c;
@@ -150,30 +155,27 @@ void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
 
       while(1)
       {
-
             //int this_option_optind = optind ? optind : 1;
 
             const struct option options[] =
             {
-                  { SPKG_HELP_OPTION,      no_argument,        SPKG_NULL,  SPKG_HELP_SHORT_OPTION      },
-                  { SPKG_INITDB_OPTION,    no_argument,        SPKG_NULL,  SPKG_INITDB_SHORT_OPTION    },
-                  { SPKG_PACK_OPTION,      required_argument,  SPKG_NULL,  SPKG_PACK_SHORT_OPTION      },
-                  { SPKG_EXTRACT_OPTION,   required_argument,  SPKG_NULL,  SPKG_EXTRACT_SHORT_OPTION   },
-                  { SPKG_INSTALL_OPTION,   no_argument,        SPKG_NULL,  SPKG_INSTALL_SHORT_OPTION   },
-                  { SPKG_REMOVE_OPTION,    no_argument,        SPKG_NULL,  SPKG_REMOVE_SHORT_OPTION    },
-                  { SPKG_UPDATE_OPTION,    required_argument,  SPKG_NULL,  SPKG_UPDATE_SHORT_OPTION    },
-                  { SPKG_REPLACE_OPTION,   required_argument,  SPKG_NULL,  SPKG_REPLACE_SHORT_OPTION   },
-                  { SPKG_QUERY_OPTION,     required_argument,  SPKG_NULL,  SPKG_QUERY_SHORT_OPTION     },
-                  { SPKG_SHOW_OPTION,      required_argument,  SPKG_NULL,  SPKG_SHOW_SHORT_OPTION      },
-                  { SPKG_USE_ROOT_OPTION,  required_argument,  SPKG_NULL,  SPKG_USE_ROOT_SHORT_OPTION  },
-                  { SPKG_FORCE_OPTION,     no_argument,        SPKG_NULL,  SPKG_FORCE_SHORT_OPTION     },
-                  { SPKG_VERBOSE_OPTION,   no_argument,        SPKG_NULL,  SPKG_VERBOSE_SHORT_OPTION   },
-                  { SPKG_SILENT_OPTION,    no_argument,        SPKG_NULL,  SPKG_SILENT_SHORT_OPTION    },
-                  { SPKG_DEPENDS_OPTION,   no_argument,        SPKG_NULL,  SPKG_DEPENDS_SHORT_OPTION   },
-                  { SPKG_CONFLICTS_OPTION, no_argument,        SPKG_NULL,  SPKG_CONFLICTS_SHORT_OPTION },
-                  { SPKG_SUGGESTS_OPTION,  no_argument,        SPKG_NULL,  SPKG_SUGGESTS_SHORT_OPTION  },
-                  { SPKG_SCRIPT_OPTION,    no_argument,        SPKG_NULL,  SPKG_SCRIPT_SHORT_OPTION    },
-                  { 0,                     0,                  0,          0                           },
+                  { SPKG_HELP_OPTION,       no_argument,        SPKG_NULL,  SPKG_HELP_SHORT_OPTION       },
+                  { SPKG_INSTALL_OPTION,    no_argument,        SPKG_NULL,  SPKG_INSTALL_SHORT_OPTION    },
+                  { SPKG_REMOVE_OPTION,     no_argument,        SPKG_NULL,  SPKG_REMOVE_SHORT_OPTION     },
+                  { SPKG_UPDATE_OPTION,     no_argument,        SPKG_NULL,  SPKG_UPDATE_SHORT_OPTION     },
+                  { SPKG_QUERY_OPTION,      no_argument,        SPKG_NULL,  SPKG_QUERY_SHORT_OPTION      },
+                  { SPKG_CREATE_OPTION,     no_argument,        SPKG_NULL,  SPKG_CREATE_SHORT_OPTION     },
+                  { SPKG_EXPLODE_OPTION,    no_argument,        SPKG_NULL,  SPKG_EXPLODE_SHORT_OPTION    },
+                  { SPKG_FILESYSTEM_OPTION, no_argument,        SPKG_NULL,  SPKG_FILESYSTEM_SHORT_OPTION },
+                  { SPKG_USE_ROOT_OPTION,   required_argument,  SPKG_NULL,  SPKG_USE_ROOT_SHORT_OPTION   },
+                  { SPKG_FORCE_OPTION,      no_argument,        SPKG_NULL,  SPKG_FORCE_SHORT_OPTION      },
+                  { SPKG_VERBOSE_OPTION,    no_argument,        SPKG_NULL,  SPKG_VERBOSE_SHORT_OPTION    },
+                  { SPKG_SILENT_OPTION,     no_argument,        SPKG_NULL,  SPKG_SILENT_SHORT_OPTION     },
+                  { SPKG_DEPENDS_OPTION,    no_argument,        SPKG_NULL,  SPKG_DEPENDS_SHORT_OPTION    },
+                  { SPKG_CONFLICTS_OPTION,  no_argument,        SPKG_NULL,  SPKG_CONFLICTS_SHORT_OPTION  },
+                  { SPKG_SUGGESTS_OPTION,   no_argument,        SPKG_NULL,  SPKG_SUGGESTS_SHORT_OPTION   },
+                  { SPKG_SCRIPT_OPTION,     no_argument,        SPKG_NULL,  SPKG_SCRIPT_SHORT_OPTION     },
+                  { 0,                      0,                  0,          0                            },
             };
 
             c = getopt_long (argc, argv, short_options, options, &option_index);
@@ -186,14 +188,14 @@ void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
                   case SPKG_HELP_SHORT_OPTION:
                         set_spkg_main_command(SPKG_HELP);
                         break;
-                  case SPKG_INITDB_SHORT_OPTION:
-                        set_spkg_main_command(SPKG_INITDB);
+                  case SPKG_FILESYSTEM_SHORT_OPTION:
+                        set_spkg_main_command(SPKG_FILESYSTEM);
                         break;
-                  case SPKG_PACK_SHORT_OPTION:
-                        set_spkg_main_command(SPKG_PACK);
+                  case SPKG_CREATE_SHORT_OPTION:
+                        set_spkg_main_command(SPKG_CREATE);
                         break;
-                  case SPKG_EXTRACT_SHORT_OPTION:
-                        set_spkg_main_command(SPKG_EXTRACT);
+                  case SPKG_EXPLODE_SHORT_OPTION:
+                        set_spkg_main_command(SPKG_EXPLODE);
                         break;
                   case SPKG_INSTALL_SHORT_OPTION:
                         set_spkg_main_command(SPKG_INSTALL);
@@ -204,14 +206,8 @@ void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
                   case SPKG_UPDATE_SHORT_OPTION:
                         set_spkg_main_command(SPKG_UPDATE);
                         break;
-                  case SPKG_REPLACE_SHORT_OPTION:
-                        set_spkg_main_command(SPKG_REPLACE);
-                        break;
                   case SPKG_QUERY_SHORT_OPTION:
                         set_spkg_main_command(SPKG_QUERY);
-                        break;
-                  case SPKG_SHOW_SHORT_OPTION:
-                        set_spkg_main_command(SPKG_SHOW);
                         break;
                   case SPKG_USE_ROOT_SHORT_OPTION:
                         set_spkg_default_root(optarg);
@@ -240,24 +236,23 @@ void spkgGetOpts::spkg_process_arguments(int argc, char** argv)
                         set_spkg_script_flag(SPKG_OFF);
                         break;
                   case '?':
-                        get_spkg_usage();
-                        exit(SPKG_FAILURE);
+                        return SPKG_UNKNOW_OPTION;
                   default :
-                        get_spkg_usage();
+                        return SPKG_NO_GIVEN_OPTION;
             }
       }
 
       /*
-      * Add anything else to targets vector to be Process
+      * Add anything else to targets vector to be Processed
       */
       if (optind < argc)
       {
-        while (optind < argc)
-          targets.push_back(argv[optind++]);
+            while (optind < argc)
+                  targets.push_back(argv[optind++]);
       }
 
       if (targets.size() > 0)
-        set_spkg_target_objects(targets);
+            set_spkg_target_objects(targets);
 
-      exit(SPKG_SUCCESS);
+      return SPKG_EVERYTHING_OK;
 }

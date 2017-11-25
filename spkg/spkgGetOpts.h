@@ -13,38 +13,44 @@ typedef enum
 {
       SPKG_NONE,
       SPKG_HELP,
-      SPKG_INITDB,
-      SPKG_PACK,
-      SPKG_EXTRACT,
+      SPKG_FILESYSTEM,
+      SPKG_CREATE,
+      SPKG_EXPLODE,
       SPKG_INSTALL,
       SPKG_REMOVE,
       SPKG_UPDATE,
-      SPKG_REPLACE,
       SPKG_QUERY,
-      SPKG_SHOW,
 } spkg_command_t;
 
+typedef enum
+{
+      SPKG_EVERYTHING_OK,
+      SPKG_NO_GIVEN_OPTION,
+      SPKG_UNKNOW_OPTION,
+      SPKG_REQUIRE_ARGUMENT,
+} spkg_getopt_staus_t;
+
 // Define main options
-#define SPKG_HELP_OPTION            "help"
-#define SPKG_HELP_SHORT_OPTION      'h'
-#define SPKG_INITDB_OPTION          "initdb"
-#define SPKG_INITDB_SHORT_OPTION    'I'
-#define SPKG_PACK_OPTION            "pack"
-#define SPKG_PACK_SHORT_OPTION      'p'
-#define SPKG_EXTRACT_OPTION         "extract"
-#define SPKG_EXTRACT_SHORT_OPTION   'e'
-#define SPKG_INSTALL_OPTION         "install"
-#define SPKG_INSTALL_SHORT_OPTION   'i'
-#define SPKG_REMOVE_OPTION          "remove"
-#define SPKG_REMOVE_SHORT_OPTION    'r'
-#define SPKG_UPDATE_OPTION          "update"
-#define SPKG_UPDATE_SHORT_OPTION    'u'
-#define SPKG_REPLACE_OPTION         "replace"
-#define SPKG_REPLACE_SHORT_OPTION   'n'
-#define SPKG_QUERY_OPTION           "query"
-#define SPKG_QUERY_SHORT_OPTION     'q'
-#define SPKG_SHOW_OPTION            "show"
-#define SPKG_SHOW_SHORT_OPTION      's'
+#define SPKG_HELP_OPTION             "help"
+#define SPKG_HELP_SHORT_OPTION       'h'
+#define SPKG_INSTALL_OPTION          "install"
+#define SPKG_INSTALL_SHORT_OPTION    'i'
+#define SPKG_REMOVE_OPTION           "remove"
+#define SPKG_REMOVE_SHORT_OPTION     'r'
+#define SPKG_UPDATE_OPTION           "update"
+#define SPKG_UPDATE_SHORT_OPTION     'u'
+#define SPKG_QUERY_OPTION            "query"
+#define SPKG_QUERY_SHORT_OPTION      'q'
+
+
+#define SPKG_CREATE_OPTION           "create"
+#define SPKG_CREATE_SHORT_OPTION     10000
+#define SPKG_EXPLODE_OPTION          "explode"
+#define SPKG_EXPLODE_SHORT_OPTION    10001
+#define SPKG_FILESYSTEM_OPTION       "filesystem"
+#define SPKG_FILESYSTEM_SHORT_OPTION 10002
+
+
 
 // Define options
 #define SPKG_USE_ROOT_OPTION        "root"
@@ -54,12 +60,12 @@ typedef enum
 #define SPKG_FORCE_OPTION           "force"
 #define SPKG_FORCE_SHORT_OPTION     'f'
 #define SPKG_SILENT_OPTION          "silent"
-#define SPKG_SILENT_SHORT_OPTION    'S'
+#define SPKG_SILENT_SHORT_OPTION    's'
 
 // Define spkg reverse options
-#define SPKG_DEPENDS_OPTION         "norundeps"
+#define SPKG_DEPENDS_OPTION         "nodepends"
 #define SPKG_DEPENDS_SHORT_OPTION   1000
-#define SPKG_CONFLICTS_OPTION       "noconflict"
+#define SPKG_CONFLICTS_OPTION       "noconflicts"
 #define SPKG_CONFLICTS_SHORT_OPTION 1001
 #define SPKG_SUGGESTS_OPTION        "nosuggests"
 #define SPKG_SUGGESTS_SHORT_OPTION  1002
@@ -67,7 +73,7 @@ typedef enum
 #define SPKG_SCRIPT_SHORT_OPTION    1003
 
 // And define short options
-#define SPKG_SHORT_OPTIONS          "hIp:e:iruR:q:s:fvS"
+#define SPKG_SHORT_OPTIONS          "hiruq:R:vfs"
 
 // Define default runtime flags
 #define SPKG_DEFAULT_ROOT         "/"
@@ -97,7 +103,7 @@ class spkgGetOpts : public baseConfig
             spkg_flag_t get_spkg_suggests_flag(void);
             spkg_flag_t get_spkg_script_flag(void);
             vector<string> get_spkg_taget_objects(void);
-            void spkg_process_arguments(int argc, char** argv);
+            spkg_getopt_staus_t spkg_process_arguments(int argc, char** argv);
 
       private:
             /*

@@ -15,7 +15,13 @@ int main(int argc, char** argv)
       spkgGetOpts Config;
 
       /* Process arguments */
-      Config.spkg_process_arguments(argc, argv);
+      spkg_getopt_staus_t s = Config.spkg_process_arguments(argc, argv);
+      switch(s)
+      {
+            case SPKG_UNKNOW_OPTION:
+                  cout << "Unknow given option" << "\n";
+                  return SPKG_FAILURE;
+      }
 
       cout << "CPU Count           : " << Config.get_spkg_cpu_count() << "\n";
       cout << "Memory Count        : " << Config.get_spkg_mem_count(SPKG_GIGABYTES) << "\n";

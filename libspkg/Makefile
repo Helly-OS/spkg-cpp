@@ -1,8 +1,8 @@
 #!/usr/bin/make -f
 
 CC      = g++
-LIB_SRC = libspkg.cpp baseConfig.cpp
-LIB_OBJ = libspkg.o baseConfig.o
+LIB_SRC = libspkg.cpp baseConfig.cpp osCompat.cpp
+LIB_OBJ = libspkg.o baseConfig.o osCompat.o
 SOLIB   = libspkg.so.1
 CFLAGS  = -I.
 

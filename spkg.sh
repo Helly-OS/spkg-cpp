@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=./libspkg
-#export LANG=es_ES.UTF-8
+export LANG=es_ES.UTF-8
 
 #if [ -e spkg/spkg ]
 #then
